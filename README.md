@@ -1,60 +1,23 @@
 # Concurrent and Distributed Systems Lab: Summer semester 2018 #
 
-This repository contains programming tasks, with their descriptions, sequential C/C++ sources, test inputs and outputs as well as the testing infrastructure for the 2018 CDS Lab.
-The tasks are taken from the Marathon of Parallel Programming 2017.
-Find further information at the [Lab's website](https://tu-dresden.de/ing/informatik/sya/se/studium/labs-seminars/concurrent_and_distributed_systems_lab/summer-semester-2018/index).
+Problem Set:
+12th Marathon of Parallel Programming Contest [WSCAD-2016](http://lspd.mackenzie.br/marathon/17/problems.html)
 
-Please use this repository as a template for your work.
-We will use a procedure similar to the one described below to evaluate your solution's performance.
-So, *make sure what is described here works for your repository prior submission*.
+Sequential code (c/c++) and judge input/output taken from WSCAD-2016
+Some minor bug of sequential code is fixed (eg: game-of-life input reading, histogram input format)
 
 As you will see in the following we use Docker containers to restrict the number of CPU cores available to you program.
 Use the environment variable `MAX_CPUS` to determine the number of availabe CPU core programatically.
 This variable is set by our testing tool that controls the container creation as well.
 Other means, since you're running in a container, might return the total amount of CPUs of the machine and not the cores available to the container.
 
-# How to get started #
+# Benchmarking Tool #
 
-These steps build the docker container and run concurrency tests.
-In this mode the program is executed a number of times with different amounts of CPUs cores.
-
-1. Fork this repository to your account. (Look for 'Fork this repository' in the bitbucket menu in case you are using bitbucket.) 
-
-1. Give our evaluation system access to you repository by adding its public key:
-
-        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDV/3jxo4Qk8ZrlppV0CHytcZfHF1zZxcUJ07RWqKVNax8AoCezkrB
-        itZJyV8htVJ09jKZPw5b01L5ZSmrZZP5QFO4SXpF6OIId4D7zEOXxRw2DEEq0D4mQiWXaKLqRZYNd4NEHvbQAjqcXAV
-        TEhYrrPPw2D5bTPSFBKuGN8qcU9xorQz4LUPQKdmp1ofGNw3etG8akAhj3V/hRUfenKlYL5dS+Ubgf9N4ZcTZVuo4PH
-        fc2x2pfIQgnTixzgo6PcfY0yxGt1X8HML2EQRbZZnD7heDp6nYOqhXJSt5eLne5UsHiW2ojmLXHKS5TXYymMxHZCPXC
-        ySq6iT+4TDPymCjb
-
-   If you're using bitbucket you can do this at `https://bitbucket.org/[YOUR_USERNAME]/[YOUR_PROJECT]/admin/access-keys/`.
-
-1. Clone your repository and switch your working directory to it. For example:
-
-        $ git clone git@bitbucket.org:[YOUR_USERNAME]/fcds-lab-2018.git && cd fcds-lab-2018
-
-2. Create the Docker image:
-
-    During the creation of the docker image the task solution programs will be build and included in the resulting image
-
-        $ docker build . -t cds-lab:latest
-
-    After this command succeeds you have to reference the created image. Either you use `docker build`'s `-t` option to tag (name)
-    the image or you carefully eyeball for a line at the end of its output that prints the image's id, e. g.:
-
-        `Successfully built 2e32ab3296ea`
-
-3. Finally, you can trigger the experiments with the `cds-tool` binary:
-
-        $ ./cds-tool/bin/cds-tool run --measure --image [IMAGE REFERENC] -c [NUMBER OF CPUs] --input [INPUT FOR THE TASK] [NAME OF TASK as is cds-tool/cds_server.json]
-        $ ./cds-tool/bin/cds-tool run --measure --image 2e32ab3296ea -c 1,2,3,4 --input mopp/game-of-life/judge.in mopp-game-of-life
-
-    This is basically what our evaluation system does with yout image. So make sure your image works as expected.
+For evaluating the performance of this solutions I have used an excellent benchmarking tool developed by Franz using rust. See details [here](https://github.com/fzgregor/cds-lab-2017)
 
 # About this Repository #
 
-The `mopp` directory contains sub directories resembling sequential solutions of this year's marathon tasks.
+The `mopp` directory contains sub directories resembling sequential solutions of 2017's marathon tasks.
 Everything is built via Makefiles.
 There is a global Makefile in `mopp` and task-specific ones in their respective sub directories.
 The global Makefile is invoked in `build.sh` which gets called during the Docker image creation (see `Dockerfile`).
