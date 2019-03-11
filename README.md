@@ -5,10 +5,10 @@ Problem Set:
 
 Sequential code (c/c++) and judge input/output taken from WSCAD-2016.
 
-As you will see in the following we use Docker containers to restrict the number of CPU cores available to you program.
+As you will see in the following we use Docker containers to restrict the number of CPU cores available to our programs.
 Use the environment variable `MAX_CPUS` to determine the number of availabe CPU core programatically.
-This variable is set by our testing tool that controls the container creation as well.
-Other means, since you're running in a container, might return the total amount of CPUs of the machine and not the cores available to the container.
+This variable is set by the testing tool that controls the container creation as well.
+Other means, since we're running in a container, might return the total amount of CPUs of the machine and not the cores available to the container.
 
 # How to get started #
 
