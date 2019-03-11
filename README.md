@@ -14,6 +14,29 @@ Other means, since you're running in a container, might return the total amount 
 
 For evaluating the performance of this solutions I have used an excellent benchmarking tool developed by Franz using rust. See details [here](https://github.com/fzgregor/cds-lab-2017)
 
+# How to get started #
+
+These steps build the docker container and run concurrency tests.
+In this mode the program is executed a number of times with different amounts of CPUs cores.
+
+1. Create the Docker image:
+
+    During the creation of the docker image the task solution programs will be build and included in the resulting image
+
+        $ docker build . -t cds-lab:latest
+
+    After this command succeeds you have to reference the created image. Either you use `docker build`'s `-t` option to tag (name)
+    the image or you carefully eyeball for a line at the end of its output that prints the image's id, e. g.:
+
+        `Successfully built 2e32ab3296ea`
+
+2. Trigger the experiments with the `cds-tool` binary:
+
+        $ ./cds-tool/bin/cds-tool run --measure --image [IMAGE REFERENC] -c [NUMBER OF CPUs] --input [INPUT FOR THE TASK] [NAME OF TASK as is cds-tool/cds_server.json]
+        $ ./cds-tool/bin/cds-tool run --measure --image 2e32ab3296ea -c 1,2,3,4 --input mopp/game-of-life/judge.in mopp-game-of-life
+
+    This is basically what our evaluation system does with yout image. So make sure your image works as expected.
+
 # About this Repository #
 
 The `mopp` directory contains sub directories resembling sequential solutions of 2017's marathon tasks.
