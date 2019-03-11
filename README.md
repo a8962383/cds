@@ -1,10 +1,9 @@
-# Concurrent and Distributed Systems Lab: Summer semester 2018 #
+# Concurrent and Distributed Systems #
 
 Problem Set:
 12th Marathon of Parallel Programming Contest [WSCAD-2016](http://lspd.mackenzie.br/marathon/17/problems.html)
 
-Sequential code (c/c++) and judge input/output taken from WSCAD-2016
-Some minor bug of sequential code is fixed (eg: game-of-life input reading, histogram input format)
+Sequential code (c/c++) and judge input/output taken from WSCAD-2016.
 
 As you will see in the following we use Docker containers to restrict the number of CPU cores available to you program.
 Use the environment variable `MAX_CPUS` to determine the number of availabe CPU core programatically.
