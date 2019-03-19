@@ -31,15 +31,16 @@ namespace t1_transitive_closure
 
             while (!string.IsNullOrEmpty(line))
             {
+                var lineArray = line.Split(' ');
                 if (line.StartsWith('a'))
                 {
-                    vertexA = Int32.Parse(line.Split(' ')[1]) - 1;
-                    vertexB = Int32.Parse(line.Split(' ')[2]) - 1;
+                    vertexA = Int32.Parse(lineArray[1]) - 1;
+                    vertexB = Int32.Parse(lineArray[2]) - 1;
                     g.graph[vertexA * graphSize + vertexB] = 1;
                 }
                 else if (line.StartsWith('p'))
                 {
-                    graphSize = Convert.ToInt32(line.Split(' ')[2]);
+                    graphSize = Convert.ToInt32(lineArray[2]);
                     g.graph = new int[graphSize * graphSize];
                 }
                 line = strReader.ReadLine();
