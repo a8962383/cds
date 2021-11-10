@@ -2,21 +2,19 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace t5_shortest_superstring
 {
     class Program
-    { 
+    {
         static void Main(string[] args)
         {
-            List<string> fragments = new List<string>();
- 
-            using (StreamReader sr = new StreamReader(Console.OpenStandardInput()))
+            List<string> fragments = new();
+
+            using (StreamReader sr = new(Console.OpenStandardInput()))
             {
-                int len = Int32.Parse(sr.ReadLine());
+                int len = int.Parse(sr.ReadLine());
                 string line = string.Empty;
 
                 do
@@ -32,14 +30,14 @@ namespace t5_shortest_superstring
 
         static string CreateShortestSuperString(List<string> subStrings)
         {
-            int numberOfCPU = Convert.ToInt32(Environment.GetEnvironmentVariable("MAX_CPUS"));
+            int numberOfCPU = Environment.ProcessorCount;// Convert.ToInt32(Environment.GetEnvironmentVariable("MAX_CPUS"));
 
             int totalStrings = subStrings.Count;
-            ConcurrentBag<string> match = new ConcurrentBag<string>();
+            ConcurrentBag<string> match = new();
 
             Parallel.ForEach(subStrings, new ParallelOptions() { MaxDegreeOfParallelism = numberOfCPU }, superString =>
             {
-                List<string> temp = new List<string>(subStrings);
+                List<string> temp = new(subStrings);
                 string maxSuperString = superString;
 
                 while (temp.Count > 1)
@@ -69,8 +67,8 @@ namespace t5_shortest_superstring
                 match.Add(maxSuperString);
             });
 
-            string bestAns, item;
-            match.TryTake(out item);
+            string bestAns;
+            match.TryTake(out string item);
             bestAns = item;
 
             while (!match.IsEmpty)
@@ -90,17 +88,16 @@ namespace t5_shortest_superstring
         static string GetSuperString(string superString, string someString)
         {
             string result = superString;
-
             int endIndex = someString.Length - 1;
 
-            while (endIndex > 0 && !superString.EndsWith(someString.Substring(0, endIndex)))
+            while (endIndex > 0 && !superString.EndsWith(someString[..endIndex]))
             {
                 endIndex--;
             }
 
             if (endIndex > 0)
             {
-                result += someString.Substring(endIndex);
+                result += someString[endIndex..];
             }
             else
             {
