@@ -16,13 +16,13 @@ namespace t4_k_means_clustering
 
         static void Main(string[] args)
         {
-            int numberOfCPU = Convert.ToInt32(Environment.GetEnvironmentVariable("MAX_CPUS"));
+            int numberOfCPU = Environment.ProcessorCount;// Convert.ToInt32(Environment.GetEnvironmentVariable("MAX_CPUS"));
             numberOfCPU = numberOfCPU > 1 ? -1 : numberOfCPU;
             
-            using (StreamReader sr = new StreamReader(Console.OpenStandardInput()))
+            using (StreamReader sr = new(Console.OpenStandardInput()))
             {
-                k = Int32.Parse(sr.ReadLine());
-                n = Int32.Parse(sr.ReadLine());
+                k = int.Parse(sr.ReadLine());
+                n = int.Parse(sr.ReadLine());
                 x = new double[DIM * n];
                 mean = new double[DIM * k];
                 sum = new double[DIM * k];
@@ -33,16 +33,16 @@ namespace t4_k_means_clustering
                 for (int i = 0; i < k; i++)
                 {
                     line = sr.ReadLine().Split(' ');
-                    mean[i * DIM] = Double.Parse(line[0]);
-                    mean[i * DIM + 1] = Double.Parse(line[1]);
-                    mean[i * DIM + 2] = Double.Parse(line[2]);
+                    mean[i * DIM] = double.Parse(line[0]);
+                    mean[i * DIM + 1] = double.Parse(line[1]);
+                    mean[i * DIM + 2] = double.Parse(line[2]);
                 }
                 for (int i = 0; i < n; i++)
                 {
                     line = sr.ReadLine().Split(' ');
-                    x[i * DIM] = Double.Parse(line[0]);
-                    x[i * DIM + 1] = Double.Parse(line[1]);
-                    x[i * DIM + 2] = Double.Parse(line[2]);
+                    x[i * DIM] = double.Parse(line[0]);
+                    x[i * DIM + 1] = double.Parse(line[1]);
+                    x[i * DIM + 2] = double.Parse(line[2]);
                 }
             }
 
@@ -98,7 +98,7 @@ namespace t4_k_means_clustering
             }
 
             string output;
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             for (int i = 0; i < k; i++)
             {
