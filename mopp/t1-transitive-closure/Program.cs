@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,17 +15,18 @@ namespace t1_transitive_closure
         static string line;
         static int vertexA, vertexB;
         static int graphSize = 0;
-        static Matrix g = new Matrix();
+        static Matrix g;
 
         static void Main()
         {
-            StringBuilder input = new StringBuilder();
-            using (StreamReader sr = new StreamReader(Console.OpenStandardInput()))
+            g = new Matrix();
+            StringBuilder input = new();
+            using (StreamReader sr = new(Console.OpenStandardInput()))
             {
                 input.Append(sr.ReadToEnd());
             }
 
-            StringReader strReader = new StringReader(input.ToString());
+            StringReader strReader = new(input.ToString());
             line = strReader.ReadLine();
 
             while (!string.IsNullOrEmpty(line))
@@ -34,8 +34,8 @@ namespace t1_transitive_closure
                 var lineArray = line.Split(' ');
                 if (line.StartsWith('a'))
                 {
-                    vertexA = Int32.Parse(lineArray[1]) - 1;
-                    vertexB = Int32.Parse(lineArray[2]) - 1;
+                    vertexA = int.Parse(lineArray[1]) - 1;
+                    vertexB = int.Parse(lineArray[2]) - 1;
                     g.graph[vertexA * graphSize + vertexB] = 1;
                 }
                 else if (line.StartsWith('p'))
@@ -52,7 +52,7 @@ namespace t1_transitive_closure
 
         static void Warshall()
         {
-            int numberOfCPU = Convert.ToInt32(Environment.GetEnvironmentVariable("MAX_CPUS"));
+            int numberOfCPU = Environment.ProcessorCount;// Convert.ToInt32(Environment.GetEnvironmentVariable("MAX_CPUS"));
             numberOfCPU = numberOfCPU > 1 ? -1 : numberOfCPU;
 
             Parallel.For(0, graphSize, new ParallelOptions() { MaxDegreeOfParallelism = numberOfCPU }, k =>
@@ -72,7 +72,7 @@ namespace t1_transitive_closure
 
         static void DisplayTransitiveClosure()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             for (int i = 0; i < graphSize; i++)
             {
                 for (int j = 0; j < graphSize; j++)
