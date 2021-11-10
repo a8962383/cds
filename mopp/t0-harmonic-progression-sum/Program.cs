@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.Text;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace t0_harmonic_progression_sum
 {
@@ -17,7 +16,7 @@ namespace t0_harmonic_progression_sum
             int n = int.Parse(line.Split(' ')[1]);
 
             // Get the number of CPUs
-            int numberOfCPU = Convert.ToInt32(Environment.GetEnvironmentVariable("MAX_CPUS"));
+            int numberOfCPU = Environment.ProcessorCount;//Convert.ToInt32(Environment.GetEnvironmentVariable("MAX_CPUS"));
 
             // Prepare data in pages/chunks to distribute in multiple threads
             int page = (int)Math.Ceiling((double)n / numberOfCPU);
@@ -25,22 +24,21 @@ namespace t0_harmonic_progression_sum
             // Final result
             int[] result = new int[d + 11];
 
-            // List of intermediate results from multiple threads
-            List<int[]> results = new List<int[]>();
-
             // Assign 0 to the final result array
             Parallel.For(0, (d + 11), digit =>
             {
                 result[digit] = 0;
             });
 
+            // List of intermediate results from multiple threads
+            List<int[]> results = new();
             // Compute the sum and add the intermidiate results in the results list
             Parallel.For(0, numberOfCPU, i =>
             {
                 if ((i + 1) * page < n)
-                    results.Add(sum(d, (i * page) + 1, (i + 1) * page));
+                    results.Add(Sum(d, (i * page) + 1, (i + 1) * page));
                 else
-                    results.Add(sum(d, (i * page) + 1, n));
+                    results.Add(Sum(d, (i * page) + 1, n));
             });
 
             // Add the intermediate results to get the final result
@@ -81,7 +79,7 @@ namespace t0_harmonic_progression_sum
             return 0;
         }
 
-        static int[] sum(int d, int start, int end)
+        static int[] Sum(int d, int start, int end)
         {
             int[] digits = new int[d + 11];
 
